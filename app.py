@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, send_file
-import tempfile
 import pdfcrowd
+import tempfile
 
 app = Flask(__name__)
 
@@ -13,22 +13,22 @@ def home():
 @app.route('/generate_resume', methods=['POST'])
 def generate_resume():
     data = {
-        'name': request.form.get('name'),
-        'location': request.form.get('location'),
-        'email': request.form.get('email'),
-        'phone': request.form.get('phone'),
-        'github': request.form.get('github'),
-        'major': request.form.get('major'),
-        'university': request.form.get('university'),
-        'period': request.form.get('period'),
-        'skills': request.form.get('skills'),
-        'roles': request.form.get('role'),
-        'companies': request.form.get('company'),
-        'experience_periods': request.form.get('experience_period'),
-        'descriptions': request.form.get('description'),
-        'project_names': request.form.get('project_name'),
-        'project_descriptions': request.form.get('project_description'),
-        'awards': request.form.get('awards'),
+        'name': request.form.get('name', 'default'),
+        'location': request.form.get('location', 'default'),
+        'email': request.form.get('email', 'default'),
+        'phone': request.form.get('phone', 'default'),
+        'github': request.form.get('github', 'default'),
+        'major': request.form.get('major', 'default'),
+        'university': request.form.get('university', 'default'),
+        'period': request.form.get('period', 'default'),
+        'skills': request.form.get('skills', 'default'),
+        'roles': request.form.get('role', 'default'),
+        'companies': request.form.get('company', 'default'),
+        'experience_periods': request.form.get('experience_period', 'default'),
+        'descriptions': request.form.get('description', 'default'),
+        'project_names': request.form.get('project_name', 'default'),
+        'project_descriptions': request.form.get('project_description', 'default'),
+        'awards': request.form.get('awards', 'default'),
     }
 
     # Render the HTML as usual but as a string
@@ -40,6 +40,8 @@ def generate_resume():
     # Set the page margins (top, right, bottom, left) in points
     client.setPageMargins("2pt", "2pt", "2pt", "2pt")
 
+    # Use HTTP instead of HTTPS
+    client.setUseHttp(True)
 
     # Convert HTML string to a PDF
     pdf = client.convertString(rendered)

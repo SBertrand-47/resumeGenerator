@@ -94,13 +94,13 @@
         <h2>Skills</h2>
         <hr>
         <div class="section-content">
-            <p><b>Software:</b> {{ skills.split(',')|join(', ') }}</p>
+            <p><b>Software:</b> {% if skills %}{{ skills.split('|')|join(', ') }}{% endif %}</p>
         </div>
 
         <h2>Experience</h2>
         <hr>
         <div class="section-content">
-            {% for role, company, experience_period, description in zip(roles.split(','), companies.split(','), experience_periods.split(','), descriptions.split(',')) %}
+            {% for role, company, experience_period, description in zip(roles.split('|'), companies.split('|'), experience_periods.split('|'), descriptions.split('|')) %}
             <div class="experience">
                 <div>
                     <p>{{ company }}</p>
@@ -120,7 +120,7 @@
         <h2>Projects</h2>
         <hr>
         <div class="section-content">
-            {% for project_name, project_description in zip(project_names.split(','), project_descriptions.split(',')) %}
+            {% for project_name, project_description in zip(project_names.split('|'), project_descriptions.split('|')) %}
             <div class="project">
                 <p>{{ project_name }}</p>
                 <ul>
@@ -137,7 +137,7 @@
         <hr>
         <div class="section-content">
             <ul class="awards">
-                {% for award in awards.split(',') %}
+                {% for award in awards.split('|') %}
                 <li>{{ award }}</li>
                 {% endfor %}
             </ul>
