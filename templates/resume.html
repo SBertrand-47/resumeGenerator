@@ -2,30 +2,146 @@
 <html>
 <head>
     <style>
-        /* Add your CSS here */
+        body {
+            font-family: "Times New Roman", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 1em;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        .info {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        p, ul {
+            margin: 0;
+            padding: 0;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #000;
+            width: 100%;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        .education, .experience, .project div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section-content {
+            width: 100%;
+        }
+        .role {
+            font-style: italic;
+        }
+        h2:first-of-type {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
-    <h1>{{ name }}</h1>
-    <p>{{ location }}</p>
-    <p>{{ email }}</p>
-    <p>{{ phone }}</p>
-    <p>{{ linkedin }}</p>
-    <p>{{ portfolio }}</p>
+    <div class="container">
+        <h1>{{ name }}</h1>
+        <div class="info">
+            <p>{{ location }}</p>
+            <p>|</p>
+            <p>{{ phone }}</p>
+            <p>|</p>
+            <p>{{ email }}</p>
+            <p>|</p>
+            <p>{{ github }}</p>
+        </div>
 
-    <h2>Education</h2>
-    <p>{{ university }}</p>
+        <h2>Education</h2>
+        <hr>
+        <div class="section-content">
+            <div class="education">
+                <div>
+                    <p>{{ university }}</p>
+                    <p>{{ major }}</p>
+                </div>
+                <p>{{ period }}</p>
+            </div>
+        </div>
 
-    <h2>Skills</h2>
-    <p>{{ skills }}</p>
+        <h2>Skills</h2>
+        <hr>
+        <div class="section-content">
+            <p><b>Software:</b> {{ skills.split(',')|join(', ') }}</p>
+        </div>
 
-    <h2>Experience</h2>
-    <p>{{ experience }}</p>
+        <h2>Experience</h2>
+        <hr>
+        <div class="section-content">
+            {% for role, company, experience_period, description in zip(roles.split(','), companies.split(','), experience_periods.split(','), descriptions.split(',')) %}
+            <div class="experience">
+                <div>
+                    <p>{{ company }}</p>
+                    <p class="role">{{ role }}</p>
+                </div>
+                <p>{{ experience_period }}</p>
+            </div>
+            <ul>
+                {% for item in description.split(';') %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+            <hr>
+            {% endfor %}
+        </div>
 
-    <h2>Projects</h2>
-    <p>{{ projects }}</p>
+        <h2>Projects</h2>
+        <hr>
+        <div class="section-content">
+            {% for project_name, project_description in zip(project_names.split(','), project_descriptions.split(',')) %}
+            <div class="project">
+                <p>{{ project_name }}</p>
+                <ul>
+                    {% for item in project_description.split(';') %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
 
-    <h2>Awards</h2>
-    <p>{{ awards }}</p>
+        <h2>Awards</h2>
+        <hr>
+        <div class="section-content">
+            <ul class="awards">
+                {% for award in awards.split(',') %}
+                <li>{{ award }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,53 +1,238 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #007BFF;
+            color: white;
+        }
+    </style>
+
     <title>Create Your Resume</title>
 </head>
 <body>
-    <h1>Create Your Resume</h1>
-    <form action="/generate_resume" method="POST">
-        <!-- Personal Information -->
-        <h2>Personal Information</h2>
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" required><br>
-        <label for="location">Location:</label><br>
-        <input type="text" id="location" name="location"><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="phone">Phone:</label><br>
-        <input type="tel" id="phone" name="phone"><br>
-        <label for="linkedin">LinkedIn:</label><br>
-        <input type="url" id="linkedin" name="linkedin"><br>
-        <label for="portfolio">Portfolio:</label><br>
-        <input type="url" id="portfolio" name="portfolio"><br>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Create Your Resume</h1>
+        <form action="/generate_resume" method="POST">
+            <div class="row">
+                <!-- Personal Information -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Personal Information</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="location">Location:</label>
+                                <input type="text" class="form-control" id="location" name="location" placeholder="City, State(Tucson, AZ)">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone:</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1(909)-893-6787">
+                            </div>
+                            <div class="form-group">
+                                <label for="github">Github:</label>
+                                <input type="url" class="form-control" id="github" name="github">
+                            </div>
+                            <div class="form-group">
+                                <label for="portfolio">Portfolio:</label>
+                                <input type="url" class="form-control" id="portfolio" name="portfolio">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Education -->
-        <h2>Education</h2>
-        <label for="university">University:</label><br>
-        <input type="text" id="university" name="university"><br>
-        <!-- More fields for education here... -->
+                <!-- Skills -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Skills</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="skills">Skills:(Separated by Commas)</label>
+                                <textarea class="form-control" id="skills" name="skills" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Skills -->
-        <h2>Skills</h2>
-        <label for="skills">Skills:</label><br>
-        <textarea id="skills" name="skills"></textarea><br>
+            <div class="row">
+                <!-- Education -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Education</div>
+                        <div class="card-body" id="educationContainer">
+                            <div class="form-group">
+                                <label for="major">Major:</label>
+                                <input type="text" class="form-control" id="major" name="major" placeholder="Bachelors of Science in Computer Science">
+                            </div>
+                            <div class="form-group">
+                                <label for="university">University:</label>
+                                <input type="text" class="form-control" id="university" name="university" placeholder="University of ">
+                            </div>
+                            <div class="form-group">
+                                <label for="period">Period:</label>
+                                <input type="text" class="form-control" id="period" name="period">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addEducation()">Add Education</button>
+                    </div>
+                </div>
 
-        <!-- Experience -->
-        <h2>Experience</h2>
-        <label for="experience">Experience:</label><br>
-        <textarea id="experience" name="experience"></textarea><br>
+                <!-- Experience -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Experience</div>
+                        <div class="card-body" id="experienceContainer">
+                            <div class="form-group">
+                                <label for="role">Role :</label>
+                                <input type="text" class="form-control" id="role" name="role">
+                            </div>
+                            <div class="form-group">
+                                <label for="company">Company :</label>
+                                <input type="text" class="form-control" id="company" name="company">
+                            </div>
+                            <div class="form-group">
+                                <label for="job-period">Job Period :</label>
+                                <input type="text" class="form-control" id="job-period" name="job-period">
+                            </div>
+                            <div class="form-group">
+                                <label for="job-description">Job Description :</label>
+                                <textarea class="form-control" id="job-description" name="job-description" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addExperience()">Add Experience</button>
+                    </div>
+                </div>
+            </div>
 
-        <!-- Projects -->
-        <h2>Projects</h2>
-        <label for="projects">Projects:</label><br>
-        <textarea id="projects" name="projects"></textarea><br>
+            <div class="row">
+                <!-- Projects -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Projects</div>
+                        <div class="card-body" id="projectContainer">
+                            <div class="form-group">
+                                <label for="project-title">Project Title:</label>
+                                <input type="text" class="form-control" id="project-title" name="project-title">
+                            </div>
+                            <div class="form-group">
+                                <label for="project-url">Project URL:</label>
+                                <input type="url" class="form-control" id="project-url" name="project-url">
+                            </div>
+                            <div class="form-group">
+                                <label for="project-description">Project Description:</label>
+                                <textarea class="form-control" id="project-description" name="project-description" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addProject()">Add Project</button>
+                    </div>
+                </div>
 
-        <!-- Awards -->
-        <h2>Awards</h2>
-        <label for="awards">Awards:</label><br>
-        <textarea id="awards" name="awards"></textarea><br>
+                <!-- Awards -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">Awards</div>
+                        <div class="card-body" id="awardContainer">
+                            <div class="form-group">
+                                <label for="award-title">Award Title:</label>
+                                <input type="text" class="form-control" id="award-title" name="award-title">
+                            </div>
+                            <div class="form-group">
+                                <label for="award-description">Award Description:</label>
+                                <textarea class="form-control" id="award-description" name="award-description" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addAward()">Add Award</button>
+                    </div>
+                </div>
+            </div>
 
-        <input type="submit" value="Generate Resume">
-    </form>
+            <button type="submit" class="btn btn-primary mt-3">Generate Resume</button>
+        </form>
+    </div>
+
+    <script>
+        function addEducation() {
+            var newEducationInput = `<div class="form-group">
+                    <label for="major">Major:</label>
+                    <input type="text" class="form-control" id="major" name="major">
+                </div>
+                <div class="form-group">
+                    <label for="university">University:</label>
+                    <input type="text" class="form-control" id="university" name="university">
+                </div>
+                <div class="form-group">
+                    <label for="period">Period:</label>
+                    <input type="text" class="form-control" id="period" name="period">
+                </div>`;
+            $("#educationContainer").append(newEducationInput);
+        }
+
+        function addExperience() {
+            var newExperienceInput = `<div class="form-group">
+                    <label for="role">Role:</label>
+                    <input type="text" class="form-control" id="role" name="role">
+                </div>
+                <div class="form-group">
+                    <label for="company">Company:</label>
+                    <input type="text" class="form-control" id="company" name="company">
+                </div>
+                <div class="form-group">
+                    <label for="experience_period">Experience Period:</label>
+                    <input type="text" class="form-control" id="experience_period" name="experience_period">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                </div>`;
+            $("#experienceContainer").append(newExperienceInput);
+        }
+
+        function addProject() {
+            var newProjectInput = `<div class="form-group">
+                    <label for="project_name">Project Name:</label>
+                    <input type="text" class="form-control" id="project_name" name="project_name">
+                </div>
+                <div class="form-group">
+                    <label for="project_description">Project Description:</label>
+                    <textarea class="form-control" id="project_description" name="project_description" rows="3"></textarea>
+                </div>`;
+            $("#projectsContainer").append(newProjectInput);
+        }
+
+        function addAward() {
+            var newAwardInput = `<div class="form-group">
+                    <label for="awards">Awards:</label>
+                    <textarea class="form-control" id="awards" name="awards" rows="3"></textarea>
+                </div>`;
+            $("#awardsContainer").append(newAwardInput);
+        }
+    </script>
 </body>
 </html>
