@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Your Resume</title>
+</head>
+<body>
+    <h1>Create Your Resume</h1>
+    <form action="/generate_resume" method="POST">
+        <!-- Personal Information -->
+        <h2>Personal Information</h2>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="phone">Phone:</label><br>
+        <input type="tel" id="phone" name="phone"><br>
+        <label for="linkedin">LinkedIn:</label><br>
+        <input type="url" id="linkedin" name="linkedin"><br>
+        <label for="portfolio">Portfolio:</label><br>
+        <input type="url" id="portfolio" name="portfolio"><br>
+
+        <!-- Education -->
+        <h2>Education</h2>
+        <label for="university">University:</label><br>
+        <input type="text" id="university" name="university"><br>
+        <!-- More fields for education here... -->
+
+        <!-- Skills -->
+        <h2>Skills</h2>
+        <label for="skills">Skills:</label><br>
+        <textarea id="skills" name="skills"></textarea><br>
+
+        <!-- Experience -->
+        <h2>Experience</h2>
+        <label for="experience">Experience:</label><br>
+        <textarea id="experience" name="experience"></textarea><br>
+
+        <!-- Projects -->
+        <h2>Projects</h2>
+        <label for="projects">Projects:</label><br>
+        <textarea id="projects" name="projects"></textarea><br>
+
+        <!-- Awards -->
+        <h2>Awards</h2>
+        <label for="awards">Awards:</label><br>
+        <textarea id="awards" name="awards"></textarea><br>
+
+        <input type="submit" value="Generate Resume">
+    </form>
+</body>
+</html>
