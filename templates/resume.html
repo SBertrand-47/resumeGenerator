@@ -1,70 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body {
-            font-family: "Times New Roman", sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px;
-        }
-        h1 {
-            font-size: 2em;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        h2 {
-            font-size: 1em;
-            text-align: left;
-            width: 100%;
-            margin-bottom: 5px;
-        }
-        .info {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        p, ul {
-            margin: 0;
-            padding: 0;
-            font-size: 1em;
-            line-height: 1.6;
-        }
-        hr {
-            border: 0;
-            border-top: 1px solid #000;
-            width: 100%;
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
-        }
-        .education, .experience, .project div {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .section-content {
-            width: 100%;
-        }
-        .role {
-            font-style: italic;
-        }
-        h2:first-of-type {
-            margin-top: 0;
-        }
-    </style>
+     <style>
+    body {
+        font-family: "Times New Roman", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 13px;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+    }
+    h1 {
+        font-size: 2em;
+        text-align: center;
+        margin-bottom: 5px;  /* Reduced margin-bottom for h1 to move education and other sections upwards */
+    }
+    h2 {
+        font-size: 1em;
+        text-align: left;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .info {
+        display: flex;
+        justify-content: center;
+        gap: 2px;
+        margin-top: 0;
+        margin-bottom: 5px; /* Reduced margin-bottom for .info to move education and other sections upwards */
+    }
+    p, ul {
+        margin: 0;
+        padding: 0;
+        font-size: 1em;
+        line-height: 1.3;
+    }
+    hr {
+        border: 0;
+        border-top: 1px solid #000;
+        width: 100%;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+    ul {
+        list-style-type: disc;
+        margin-left: 20px;
+    }
+    .education, .experience, .project div {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 2px;  /* Increased margin-bottom for education, experience and project divs to add small space between experiences */
+
+    }
+    .section-content {
+        width: 100%;
+    }
+    .role, .company {
+        font-style: italic;
+        font-weight: bold;  /* Made company name and position bold */
+    }
+    h2:first-of-type {
+        margin-top: 0;
+    }
+    .university {
+        font-weight: bold;
+    }
+    /* Changes for awards section */
+    .awards li h3 {
+        font-size: 0.8em;
+        margin: 0;
+    }
+    .awards li p {
+        font-size: 0.8em;
+        line-height: 1.2;
+    }
+</style>
+
+
 </head>
 <body>
     <div class="container">
@@ -77,71 +95,75 @@
             <p>{{ email }}</p>
             <p>|</p>
             <p>{{ github }}</p>
+            <p>|</p>
+            <p>{{ portfolio }}</p>
+
         </div>
 
         <h2>Education</h2>
         <hr>
-        <div class="section-content">
-            <div class="education">
-                <div>
-                    <p>{{ university }}</p>
-                    <p>{{ major }}</p>
+        <div class="section-content" id="resumeEducationSection">
+            {% for major, university, education_period, gpa, courses in zip(majors, universities, education_periods, gpas, courses) %}
+                <div class="education">
+                    <div>
+                        <p class="university">{{ university }}</p>
+                        <p>{{ major }}</p>
+                        <p>GPA: {{ gpa }}</p>
+                        <p>Relevant Courses: {{ courses }}</p>
+                    </div>
+                    <b><p>{{ education_period }}</p></b>
                 </div>
-                <p>{{ period }}</p>
-            </div>
+            {% endfor %}
         </div>
+
+
+
+
 
         <h2>Skills</h2>
         <hr>
         <div class="section-content">
-            <p><b>Software:</b> {% if skills %}{{ skills.split('|')|join(', ') }}{% endif %}</p>
+            <p><b>Software:</b> {% if skills %}{{ skills.split(',')|map('trim')|join(', ') }}{% endif %}</p>
         </div>
 
-        <h2>Experience</h2>
+       <h2>Experience</h2>
         <hr>
         <div class="section-content">
-            {% for role, company, experience_period, description in zip(roles.split('|'), companies.split('|'), experience_periods.split('|'), descriptions.split('|')) %}
+            {% for role, company, experience_period, description in zip(roles, companies, experience_periods, job_descriptions) %}
             <div class="experience">
                 <div>
-                    <p>{{ company }}</p>
+                    <p><b>{{ company }}</b></p>
                     <p class="role">{{ role }}</p>
                 </div>
-                <p>{{ experience_period }}</p>
+                <p><b>{{ experience_period }}</b></p>
             </div>
             <ul>
                 {% for item in description.split(';') %}
                 <li>{{ item }}</li>
                 {% endfor %}
             </ul>
-            <hr>
             {% endfor %}
         </div>
 
-        <h2>Projects</h2>
+
+       <h2>Projects</h2>
         <hr>
         <div class="section-content">
-            {% for project_name, project_description in zip(project_names.split('|'), project_descriptions.split('|')) %}
+            {% for project_name, project_url, project_description in zip(project_names, project_urls, project_descriptions) %}
             <div class="project">
-                <p>{{ project_name }}</p>
+                <p><a href="{{ project_url }}" target="_blank">{{ project_name }}</a></p>
                 <ul>
                     {% for item in project_description.split(';') %}
                     <li>{{ item }}</li>
                     {% endfor %}
                 </ul>
             </div>
-            <hr>
+
             {% endfor %}
         </div>
 
-        <h2>Awards</h2>
-        <hr>
-        <div class="section-content">
-            <ul class="awards">
-                {% for award in awards.split('|') %}
-                <li>{{ award }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+
+</div>
+
 </body>
 </html>

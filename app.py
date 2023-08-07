@@ -12,24 +12,52 @@ def home():
 
 @app.route('/generate_resume', methods=['POST'])
 def generate_resume():
+    print(request.form)
+    # Get the list of education periods
+    education_periods = [
+        f"{start} - {end}"
+        for start, end in zip(request.form.getlist('start_date'), request.form.getlist('end_date'))
+    ]
+
+    # Get the list of GPAs
+    gpas = request.form.getlist('gpa')
+
+    # Get the list of relevant courses
+    courses = request.form.getlist('courses')
+
+    # Get the list of experience periods
+    experience_periods = [
+        f"{start} - {end}"
+        for start, end in zip(request.form.getlist('job_start_date'), request.form.getlist('job_end_date'))
+    ]
+
     data = {
         'name': request.form.get('name', 'default'),
         'location': request.form.get('location', 'default'),
         'email': request.form.get('email', 'default'),
         'phone': request.form.get('phone', 'default'),
         'github': request.form.get('github', 'default'),
-        'major': request.form.get('major', 'default'),
-        'university': request.form.get('university', 'default'),
-        'period': request.form.get('period', 'default'),
+        'portfolio': request.form.get('portfolio','default'),
+        'majors': request.form.getlist('major'),
+        'universities': request.form.getlist('university'),
+        'education_periods': education_periods,
+        'gpas': gpas, # Added GPAs
+        'courses': courses, # Added relevant courses
         'skills': request.form.get('skills', 'default'),
-        'roles': request.form.get('role', 'default'),
-        'companies': request.form.get('company', 'default'),
-        'experience_periods': request.form.get('experience_period', 'default'),
-        'descriptions': request.form.get('description', 'default'),
-        'project_names': request.form.get('project_name', 'default'),
-        'project_descriptions': request.form.get('project_description', 'default'),
-        'awards': request.form.get('awards', 'default'),
+        'roles': request.form.getlist('role'),
+        'companies': request.form.getlist('company'),
+        'experience_periods': experience_periods,
+        'job_descriptions': request.form.getlist('job-description'),
+        'project_names': request.form.getlist('project_names[]'),
+        'project_urls': request.form.getlist('project_urls[]'),
+        'project_descriptions': request.form.getlist('project_descriptions[]'),
+        'award_titles': request.form.getlist('award_title[]'),
+        'award_descriptions': request.form.getlist('award_description[]'),
     }
+
+    print(data)
+    print(request.form.getlist('start_date'))
+    print(request.form.getlist('end_date'))
 
     # Render the HTML as usual but as a string
     rendered = render_template('resume.html', **data)

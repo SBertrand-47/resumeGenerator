@@ -13,6 +13,11 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
     <!-- Custom CSS -->
     <style>
         body {
@@ -24,6 +29,10 @@
         .card-header {
             background-color: #007BFF;
             color: white;
+        }
+
+        .ui-datepicker-calendar {
+            display: none;
         }
     </style>
 
@@ -82,77 +91,98 @@
             </div>
 
             <div class="row">
-                <!-- Education -->
+   <!-- Education -->
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">Education</div>
                         <div class="card-body" id="educationContainer">
                             <div class="form-group">
-                                <label for="major">Major:</label>
-                                <input type="text" class="form-control" id="major" name="major" placeholder="Bachelors of Science in Computer Science">
-                            </div>
+                            <label for="major">Major:</label>
+                            <input type="text" class="form-control" id="major" name="major" placeholder="Bachelors of Science in Computer Science">
+                        </div>
+                        <div class="form-group">
+                            <label for="university">University:</label>
+                            <input type="text" class="form-control" id="university" name="university" placeholder="University of ">
+                        </div>
+                        <div class="form-group">
+                            <label for="start-date">Start Date:</label>
+                            <input type="text" class="form-control start-date" id="start-date" name="start_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="end-date">End Date:</label>
+                            <input type="text" class="form-control end-date" id="end-date" name="end_date">
+                        </div>
                             <div class="form-group">
-                                <label for="university">University:</label>
-                                <input type="text" class="form-control" id="university" name="university" placeholder="University of ">
-                            </div>
-                            <div class="form-group">
-                                <label for="period">Period:</label>
-                                <input type="text" class="form-control" id="period" name="period">
-                            </div>
+                        <label for="gpa">GPA:</label>
+                        <input type="text" class="form-control" id="gpa" name="gpa">
+                        </div>
+                        <div class="form-group">
+                            <label for="courses">Relevant Courses:</label>
+                            <textarea class="form-control" id="courses" name="courses"></textarea>
+                        </div>
+
+
                         </div>
                         <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addEducation()">Add Education</button>
                     </div>
                 </div>
 
+
+
                 <!-- Experience -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Experience</div>
-                        <div class="card-body" id="experienceContainer">
-                            <div class="form-group">
-                                <label for="role">Role :</label>
-                                <input type="text" class="form-control" id="role" name="role">
-                            </div>
-                            <div class="form-group">
-                                <label for="company">Company :</label>
-                                <input type="text" class="form-control" id="company" name="company">
-                            </div>
-                            <div class="form-group">
-                                <label for="job-period">Job Period :</label>
-                                <input type="text" class="form-control" id="job-period" name="job-period">
-                            </div>
-                            <div class="form-group">
-                                <label for="job-description">Job Description :</label>
-                                <textarea class="form-control" id="job-description" name="job-description" rows="3"></textarea>
-                            </div>
+              <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Experience</div>
+                    <div class="card-body" id="experienceContainer">
+                        <div class="form-group">
+                            <label for="role">Role :</label>
+                            <input type="text" class="form-control" id="role" name="role">
                         </div>
-                        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addExperience()">Add Experience</button>
+                        <div class="form-group">
+                            <label for="company">Company :</label>
+                            <input type="text" class="form-control" id="company" name="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-start-date">Start Date:</label>
+                            <input type="text" class="form-control start-date" id="job-start-date" name="job_start_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-end-date">End Date:</label>
+                            <input type="text" class="form-control end-date" id="job-end-date" name="job_end_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-description">Job Description :</label>
+                            <textarea class="form-control" id="job-description" name="job-description" rows="3"></textarea>
+                        </div>
                     </div>
+                    <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addExperience()">Add Experience</button>
                 </div>
+            </div>
             </div>
 
             <div class="row">
                 <!-- Projects -->
                 <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Projects</div>
-                        <div class="card-body" id="projectContainer">
-                            <div class="form-group">
-                                <label for="project-title">Project Title:</label>
-                                <input type="text" class="form-control" id="project-title" name="project-title">
-                            </div>
-                            <div class="form-group">
-                                <label for="project-url">Project URL:</label>
-                                <input type="url" class="form-control" id="project-url" name="project-url">
-                            </div>
-                            <div class="form-group">
-                                <label for="project-description">Project Description:</label>
-                                <textarea class="form-control" id="project-description" name="project-description" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addProject()">Add Project</button>
-                    </div>
-                </div>
+    <div class="card">
+        <div class="card-header">Projects</div>
+        <div class="card-body" id="projectContainer">
+            <div class="form-group">
+                <label for="project-title">Project Title:</label>
+                <input type="text" class="form-control" id="project-title" name="project_names[]">
+            </div>
+            <div class="form-group">
+                <label for="project-url">Project URL:</label>
+                <input type="url" class="form-control" id="project-url" name="project_urls[]">
+            </div>
+            <div class="form-group">
+                <label for="project-description">Project Description:</label>
+                <textarea class="form-control" id="project-description" name="project_descriptions[]" rows="3"></textarea>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addProject()">Add Project</button>
+    </div>
+</div>
+
 
                 <!-- Awards -->
                 <div class="col-md-6">
@@ -160,13 +190,13 @@
                         <div class="card-header">Awards</div>
                         <div class="card-body" id="awardContainer">
                             <div class="form-group">
-                                <label for="award-title">Award Title:</label>
-                                <input type="text" class="form-control" id="award-title" name="award-title">
-                            </div>
-                            <div class="form-group">
-                                <label for="award-description">Award Description:</label>
-                                <textarea class="form-control" id="award-description" name="award-description" rows="3"></textarea>
-                            </div>
+                            <label for="award-title">Award Title:</label>
+                            <input type="text" class="form-control" id="award-title" name="award_title[]">
+                        </div>
+                        <div class="form-group">
+                            <label for="award-description">Award Description:</label>
+                            <textarea class="form-control" id="award-description" name="award_description[]" rows="3"></textarea>
+                        </div>
                         </div>
                         <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addAward()">Add Award</button>
                     </div>
@@ -177,62 +207,228 @@
         </form>
     </div>
 
-    <script>
-        function addEducation() {
-            var newEducationInput = `<div class="form-group">
-                    <label for="major">Major:</label>
-                    <input type="text" class="form-control" id="major" name="major">
-                </div>
-                <div class="form-group">
-                    <label for="university">University:</label>
-                    <input type="text" class="form-control" id="university" name="university">
-                </div>
-                <div class="form-group">
-                    <label for="period">Period:</label>
-                    <input type="text" class="form-control" id="period" name="period">
-                </div>`;
-            $("#educationContainer").append(newEducationInput);
-        }
 
-        function addExperience() {
-            var newExperienceInput = `<div class="form-group">
-                    <label for="role">Role:</label>
-                    <input type="text" class="form-control" id="role" name="role">
-                </div>
-                <div class="form-group">
-                    <label for="company">Company:</label>
-                    <input type="text" class="form-control" id="company" name="company">
-                </div>
-                <div class="form-group">
-                    <label for="experience_period">Experience Period:</label>
-                    <input type="text" class="form-control" id="experience_period" name="experience_period">
-                </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                </div>`;
-            $("#experienceContainer").append(newExperienceInput);
-        }
+<script>
+    $(document).ready(function() {
+    initializeDatepickers();
+});
 
-        function addProject() {
-            var newProjectInput = `<div class="form-group">
-                    <label for="project_name">Project Name:</label>
-                    <input type="text" class="form-control" id="project_name" name="project_name">
-                </div>
-                <div class="form-group">
-                    <label for="project_description">Project Description:</label>
-                    <textarea class="form-control" id="project_description" name="project_description" rows="3"></textarea>
-                </div>`;
-            $("#projectsContainer").append(newProjectInput);
+function initializeDatepickers() {
+    $(".start-date, .end-date").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'MM yy',
+        showButtonPanel: true,
+        onClose: function(dateText, inst) {
+            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).datepicker('setDate', new Date(year, month, 1));
+        },
+        beforeShow: function(input, inst) {
+            if ((datestr = $(this).val()).length > 0) {
+                year = datestr.substring(datestr.length - 4, datestr.length);
+                month = jQuery.inArray(datestr.substring(0, datestr.length - 5), $(this).datepicker('option', 'monthNames'));
+                $(this).datepicker('option', 'defaultDate', new Date(year, month, 1));
+                $(this).datepicker('setDate', new Date(year, month, 1));
+            }
         }
+    });
+}
 
-        function addAward() {
-            var newAwardInput = `<div class="form-group">
-                    <label for="awards">Awards:</label>
-                    <textarea class="form-control" id="awards" name="awards" rows="3"></textarea>
-                </div>`;
-            $("#awardsContainer").append(newAwardInput);
+
+    function addElement(containerID, template) {
+        document.getElementById(containerID).insertAdjacentHTML('beforeend', template);
+    }
+
+  function addEducation() {
+    var newEducationInput = `
+    <div class="education-section">
+        <div class="form-group">
+            <label for="major">Major:</label>
+            <input type="text" class="form-control" name="major">
+        </div>
+        <div class="form-group">
+            <label for="university">University:</label>
+            <input type="text" class="form-control" name="university">
+        </div>
+        <div class="form-group">
+            <label for="start-date">Start Date:</label>
+            <input type="text" class="form-control start-date" name="start_date">
+        </div>
+        <div class="form-group">
+            <label for="end-date">End Date:</label>
+            <input type="text" class="form-control end-date" name="end_date">
+        </div>
+        <div class="form-group">
+            <label for="gpa">GPA:</label>
+            <input type="text" class="form-control" name="gpa">
+        </div>
+        <div class="form-group">
+            <label for="courses">Relevant Courses:</label>
+            <textarea class="form-control" name="courses"></textarea>
+        </div>
+        <button type="button" class="btn btn-danger remove-education">Remove</button>
+    </div>`;
+
+
+    document.getElementById("educationContainer").insertAdjacentHTML('beforeend', newEducationInput);
+    initializeDatepickers();
+}
+
+function initializeDatepickers() {
+    $(".start-date, .end-date").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'MM yy',
+        showButtonPanel: true,
+        onClose: function(dateText, inst) {
+            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).datepicker('setDate', new Date(year, month, 1));
+        },
+        beforeShow: function(input, inst) {
+            if ((datestr = $(this).val()).length > 0) {
+                year = datestr.substring(datestr.length - 4, datestr.length);
+                month = jQuery.inArray(datestr.substring(0, datestr.length - 5), $(this).datepicker('option', 'monthNames'));
+                $(this).datepicker('option', 'defaultDate', new Date(year, month, 1));
+                $(this).datepicker('setDate', new Date(year, month, 1));
+            }
         }
-    </script>
+    });
+}
+
+$(document).ready(function() {
+    // Event delegation to handle the removal of dynamically added education sections
+    $('#educationContainer').on('click', '.remove-education', function() {
+        $(this).closest('.education-section').remove();
+    });
+});
+
+
+
+
+    function addExperience() {
+    var newExperienceInput = `
+        <div class="experience-section">
+            <div class="form-group">
+                <label for="role">Role :</label>
+                <input type="text" class="form-control" name="role">
+            </div>
+            <div class="form-group">
+                <label for="company">Company :</label>
+                <input type="text" class="form-control" name="company">
+            </div>
+            <div class="form-group">
+                <label for="job-start-date">Start Date:</label>
+                <input type="text" class="form-control start-date" name="job_start_date">
+            </div>
+            <div class="form-group">
+                <label for="job-end-date">End Date:</label>
+                <input type="text" class="form-control end-date" name="job_end_date">
+            </div>
+            <div class="form-group">
+                <label for="job-description">Job Description :</label>
+                <textarea class="form-control" name="job-description" rows="3"></textarea>
+            </div>
+            <button type="button" class="btn btn-danger remove-experience">Remove</button>
+        </div>`;
+
+    document.getElementById("experienceContainer").insertAdjacentHTML('beforeend', newExperienceInput);
+    initializeDatepickers();
+}
+
+// Reusing the datepicker function from before, you can adjust the datepicker options as required.
+function initializeDatepickers() {
+    $(".start-date, .end-date").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'MM yy',
+        showButtonPanel: true,
+        onClose: function(dateText, inst) {
+            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $(this).datepicker('setDate', new Date(year, month, 1));
+        },
+        beforeShow: function(input, inst) {
+            if ((datestr = $(this).val()).length > 0) {
+                year = datestr.substring(datestr.length - 4, datestr.length);
+                month = jQuery.inArray(datestr.substring(0, datestr.length - 5), $(this).datepicker('option', 'monthNames'));
+                $(this).datepicker('option', 'defaultDate', new Date(year, month, 1));
+                $(this).datepicker('setDate', new Date(year, month, 1));
+            }
+        }
+    });
+}
+
+$(document).ready(function() {
+    // Event delegation to handle the removal of dynamically added experience sections
+    $('#experienceContainer').on('click', '.remove-experience', function() {
+        $(this).closest('.experience-section').remove();
+    });
+});
+
+
+    function addProject() {
+    var template = `
+        <div class="project-section">
+            <div class="form-group">
+                <label for="project_name">Project Name:</label>
+                <input type="text" class="form-control" name="project_names[]">
+            </div>
+            <div class="form-group">
+                <label for="project_url">Project URL:</label>
+                <input type="url" class="form-control" name="project_urls[]">
+            </div>
+            <div class="form-group">
+                <label for="project_description">Project Description:</label>
+                <textarea class="form-control" name="project_descriptions[]" rows="3"></textarea>
+            </div>
+            <button type="button" class="btn btn-danger remove-project">Remove</button>
+        </div>`;
+    addElement("projectContainer", template);
+
+    // Event listener for the removal of dynamically added project sections
+    $('.remove-project').last().on('click', function() {
+        $(this).closest('.project-section').remove();
+    });
+}
+
+function addElement(parentId, element) {
+    document.getElementById(parentId).insertAdjacentHTML('beforeend', element);
+}
+
+
+
+   function addAward() {
+    var template = `
+        <div class="award-section">
+            <div class="form-group">
+                <label for="award-title">Award Title:</label>
+                <input type="text" class="form-control" name="award_title[]">
+            </div>
+            <div class="form-group">
+                <label for="award-description">Award Description:</label>
+                <textarea class="form-control" name="award_description[]" rows="3"></textarea>
+            </div>
+            <button type="button" class="btn btn-danger remove-award">Remove</button>
+        </div>`;
+    addElement("awardContainer", template);
+
+    $(document).ready(function() {
+    // Event delegation to handle the removal of dynamically added award sections
+    $('#awardContainer').on('click', '.remove-award', function() {
+        $(this).closest('.award-section').remove();
+    });
+});
+
+}
+
+function addElement(parentId, element) {
+    document.getElementById(parentId).insertAdjacentHTML('beforeend', element);
+}
+
+
+</script>
+
 </body>
 </html>
