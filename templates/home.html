@@ -20,16 +20,103 @@
 
     <!-- Custom CSS -->
     <style>
+        /* Global Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Cambria', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
         }
+
+        .container {
+            background-color: #fff;
+            padding: 30px 50px;
+            border-radius: 8px;
+            box-shadow: 0 3px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        h1.text-center {
+            color: #444;
+            font-weight: 600;
+        }
+
         .card {
-            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
         }
+
         .card-header {
-            background-color: #007BFF;
-            color: white;
+            background-color: #2C3E50;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 5px 5px 0 0;
         }
+
+        .form-control,
+        .form-check-input {
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            padding: 10px 15px;
+        }
+
+        .form-control:focus {
+            border-color: #3498DB;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .btn {
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .btn-secondary {
+            background-color: #7f8c8d;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #6c7a89;
+        }
+
+        .btn-primary {
+            background-color: #3498DB;
+            border: none;
+            color: #fff;
+            padding: 10px 25px;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980B9;
+        }
+
+        .form-check-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        /* Spacing Adjustments */
+        .mt-3 {
+            margin-top: 20px !important;
+        }
+
+        .mt-5 {
+            margin-top: 50px !important;
+        }
+
+        .mb-3 {
+            margin-bottom: 20px !important;
+        }
+
+        .mb-4 {
+            margin-bottom: 30px !important;
+        }
+
+        .ml-3 {
+            margin-left: 20px !important;
+        }
+
 
         .ui-datepicker-calendar {
             display: none;
@@ -67,10 +154,14 @@
                             <div class="form-group">
                                 <label for="github">Github:</label>
                                 <input type="url" class="form-control" id="github" name="github">
+                                <input type="checkbox" id="exclude_github" name="exclude_github" onchange="toggleInput('github', 'exclude_github')">
+                                <label for="exclude_github">Exclude Github from resume</label>
                             </div>
                             <div class="form-group">
                                 <label for="portfolio">Portfolio:</label>
                                 <input type="url" class="form-control" id="portfolio" name="portfolio">
+                                <input type="checkbox" id="exclude_portfolio" name="exclude_portfolio" onchange="toggleInput('portfolio', 'exclude_portfolio')">
+                                <label for="exclude_portfolio">Exclude Portfolio from resume</label>
                             </div>
                         </div>
                     </div>
@@ -91,7 +182,7 @@
             </div>
 
             <div class="row">
-   <!-- Education -->
+                <!-- Education -->
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">Education</div>
@@ -184,23 +275,7 @@
 </div>
 
 
-                <!-- Awards -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Awards</div>
-                        <div class="card-body" id="awardContainer">
-                            <div class="form-group">
-                            <label for="award-title">Award Title:</label>
-                            <input type="text" class="form-control" id="award-title" name="award_title[]">
-                        </div>
-                        <div class="form-group">
-                            <label for="award-description">Award Description:</label>
-                            <textarea class="form-control" id="award-description" name="award_description[]" rows="3"></textarea>
-                        </div>
-                        </div>
-                        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addAward()">Add Award</button>
-                    </div>
-                </div>
+
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">Generate Resume</button>
@@ -212,6 +287,15 @@
     $(document).ready(function() {
     initializeDatepickers();
 });
+
+    function toggleInput(inputId, checkboxId) {
+        var input = document.getElementById(inputId);
+        var checkbox = document.getElementById(checkboxId);
+        input.disabled = checkbox.checked;
+        if(checkbox.checked) {
+            input.value = ""; // clear the input value
+        }
+    }
 
 function initializeDatepickers() {
     $(".start-date, .end-date").datepicker({

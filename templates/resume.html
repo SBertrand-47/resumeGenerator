@@ -117,11 +117,14 @@ a:hover, a:active {
             <p>{{ phone }}</p>
             <p>|</p>
             <p>{{ email }}</p>
+            {% if github %}
             <p>|</p>
             <p><a href="{{ github }}" target="_blank">{{ github }}</a></p>
+            {% endif %}
+            {% if portfolio %}
             <p>|</p>
             <p><a href="{{ portfolio }}" target="_blank">{{ portfolio }}</a></p>
-
+            {% endif %}
         </div>
 
         <h2>Education</h2>
