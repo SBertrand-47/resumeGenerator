@@ -10,18 +10,39 @@ app.jinja_env.globals.update(zip=zip)
 def home():
     return render_template('home.html')
 
+
 @app.route('/generate_resume', methods=['POST'])
 def generate_resume():
     print(request.form)
+
     # Get the list of education periods
     education_periods = [
         f"{start} - {end}"
         for start, end in zip(request.form.getlist('start_date'), request.form.getlist('end_date'))
     ]
 
-    # Get the list of GPAs
-    gpas = request.form.getlist('gpa')
+    # Handling the exclusion of GPAs
+    raw_gpas = request.form.getlist('gpa')
+    exclude_gpa_checkboxes = request.form.getlist('exclude_gpa[]') or ['off' for _ in raw_gpas]
 
+    print("Raw GPAs:", raw_gpas)
+    print("Exclude GPA checkboxes:", exclude_gpa_checkboxes)
+
+    gpas = [
+        gpa if exclude_gpa != 'on' else None
+        for gpa, exclude_gpa in zip(raw_gpas, exclude_gpa_checkboxes)
+    ]
+
+    print("Processed GPAs:", gpas)
+
+    # Ensure the excluded GPAs are removed from the list
+    gpas = [gpa for gpa in gpas if gpa is not None]
+
+    # Ensure the `gpas` list has the same length as other lists, like 'majors'
+    while len(gpas) < len(request.form.getlist('major')):
+        gpas.append(None)
+
+    print("Final GPAs:", gpas)
     # Get the list of relevant courses
     courses = request.form.getlist('courses')
 
@@ -41,8 +62,8 @@ def generate_resume():
         'majors': request.form.getlist('major'),
         'universities': request.form.getlist('university'),
         'education_periods': education_periods,
-        'gpas': gpas, # Added GPAs
-        'courses': courses, # Added relevant courses
+        'gpas': gpas,  # Updated GPAs with potential exclusions
+        'courses': courses,
         'skills': request.form.get('skills', 'default'),
         'roles': request.form.getlist('role'),
         'companies': request.form.getlist('company'),
@@ -63,7 +84,7 @@ def generate_resume():
     rendered = render_template('resume.html', **data)
 
     # Create a Pdfcrowd API client instance
-    client = pdfcrowd.HtmlToPdfClient('mr47', '23f23109334517f141f7494c8132ecc0')
+    client = pdfcrowd.HtmlToPdfClient('eduard25', '8dd4fd2eb74244424a3e598b70fca921')
 
     # Set the page margins (top, right, bottom, left) in points
     client.setPageMargins("2pt", "2pt", "2pt", "2pt")

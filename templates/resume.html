@@ -130,18 +130,19 @@ a:hover, a:active {
         <h2>Education</h2>
         <hr>
         <div class="section-content" id="resumeEducationSection">
-            {% for major, university, education_period, gpa, courses in zip(majors, universities, education_periods, gpas, courses) %}
+            {% for major, university, education_period, gpa, course in zip(majors, universities, education_periods, gpas, courses) %}
                 <div class="education">
                     <div>
                         <p class="university">{{ university }}</p>
                         <p>{{ major }}</p>
-                        <p>GPA: {{ gpa }}</p>
-                        <p>Relevant Courses: {{ courses }}</p>
+                        <p>{% if gpa %}GPA: {{ gpa }}{% endif %}</p>
+                        <p>Relevant Courses: {{ course }}</p>
                     </div>
                     <b><p>{{ education_period }}</p></b>
                 </div>
             {% endfor %}
         </div>
+
 
 
 
