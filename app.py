@@ -51,15 +51,19 @@ def generate_resume():
     experience_periods = []
     job_start_dates = request.form.getlist('job_start_date')
     job_end_dates_hidden = request.form.getlist('job_end_date_hidden')
+    job_end_dates_visible = request.form.getlist('job_end_date_visible')  # Retrieve the visible end dates too
 
     print("job_start_dates:", job_start_dates)
+    print("job_end_dates_visible:", job_end_dates_visible)  # Log visible end dates
     print("job_end_dates_hidden:", job_end_dates_hidden)
 
     for i, (start, end_hidden) in enumerate(zip(job_start_dates, job_end_dates_hidden)):
-        if end_hidden == "Present":  # If the hidden end date indicates it's the current job
+        if end_hidden == "Present":
             experience_periods.append(f"{start} - Present")
-        else:  # If there's a specific end date provided
-            experience_periods.append(f"{start} - {end_hidden}")
+        else:
+            # Use visible end date if hidden one is not "Present"
+            end_visible = job_end_dates_visible[i] if i < len(job_end_dates_visible) else end_hidden
+            experience_periods.append(f"{start} - {end_visible}")
 
     print("Experience Periods:", experience_periods)
 

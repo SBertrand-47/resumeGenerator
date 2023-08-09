@@ -298,50 +298,50 @@
 
 
 <script>
-    $(document).ready(function() {
+   $(document).ready(function() {
     initializeDatepickers();
+
+    // Initialize hidden end date on page load to match the visible end date input's value
+    $('.end-date').each(function() {
+        var endDateInput = $(this);
+        var endDateHiddenInput = endDateInput.siblings('#job-end-date-hidden');
+        endDateHiddenInput.val(endDateInput.val());
+        console.log("Page load: Set hidden end date value to:", endDateHiddenInput.val());
+    });
+
+    // Update hidden input whenever visible input changes
+    $('.end-date').on('change', function() {
+        var endDateInput = $(this);
+        var endDateHiddenInput = endDateInput.siblings('#job-end-date-hidden');
+        endDateHiddenInput.val(endDateInput.val());
+        console.log("User input: Set hidden end date value to:", endDateHiddenInput.val());
+    });
 });
-  function toggleEndDate(checkbox) {
+
+function toggleEndDate(checkbox) {
     var endDateInput = $(checkbox).closest('.form-group').find('.end-date');
     var endDateHiddenInput = $(checkbox).closest('.form-group').find('#job-end-date-hidden');
 
     if (checkbox.checked) {
-        endDateInput.prop('disabled', true);
-        endDateInput.val('Present');
+        endDateInput.prop('disabled', true).val('Present');
         endDateHiddenInput.val('Present');
     } else {
         endDateInput.prop('disabled', false);
-        if (!endDateInput.val()) {
-            endDateInput.val(endDateHiddenInput.val()); // Set the value from hidden field if empty
-        }
-        endDateHiddenInput.val(endDateInput.val());
+        endDateHiddenInput.val('');
+
     }
+
+    console.log("Checkbox", checkbox.checked ? "checked:" : "unchecked:", "Visible value:", endDateInput.val(), "Hidden value:", endDateHiddenInput.val());
 }
 
-$(document).ready(function() {
-    $('.end-date').on('input', function() {
-        var endDateInput = $(this);
-        var endDateHiddenInput = endDateInput.closest('.form-group').find('#job-end-date-hidden');
-        endDateHiddenInput.val(endDateInput.val());
-        console.log("Hidden Input Value:", endDateHiddenInput.val());
-    });
-});
-
-
-
-
-
-
-
-
-    function toggleInput(inputId, checkboxId) {
-        var input = document.getElementById(inputId);
-        var checkbox = document.getElementById(checkboxId);
-        input.disabled = checkbox.checked;
-        if(checkbox.checked) {
-            input.value = ""; // clear the input value
-        }
+function toggleInput(inputId, checkboxId) {
+    var input = document.getElementById(inputId);
+    var checkbox = document.getElementById(checkboxId);
+    input.disabled = checkbox.checked;
+    if(checkbox.checked) {
+        input.value = ""; // clear the input value
     }
+}
 
 function initializeDatepickers() {
     $(".start-date, .end-date").datepicker({
@@ -349,6 +349,12 @@ function initializeDatepickers() {
         changeYear: true,
         dateFormat: 'MM yy',
         showButtonPanel: true,
+        onSelect: function(dateText) { // This function is the new addition
+            var endDateInput = $(this);
+            var endDateHiddenInput = endDateInput.siblings('#job-end-date-hidden');
+            endDateHiddenInput.val(dateText);
+            console.log("Datepicker selection: Set hidden end date value to:", endDateHiddenInput.val());
+        },
         onClose: function(dateText, inst) {
             var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
             var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
