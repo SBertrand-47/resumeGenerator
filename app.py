@@ -125,10 +125,10 @@ def generate_resume():
     rendered = render_template('resume.html', **data)
 
     # Create a Pdfcrowd API client instance
-    client = pdfcrowd.HtmlToPdfClient('eduard25', '8dd4fd2eb74244424a3e598b70fca921')
+    client = pdfcrowd.HtmlToPdfClient('sergetony47', 'eeb7133656a47637bbfe2aaaf28d71de')
 
     # Set the page margins (top, right, bottom, left) in points
-    client.setPageMargins("2pt", "2pt", "2pt", "2pt")
+    client.setPageMargins("1pt", "1pt", "1pt", "1pt")
 
     # Use HTTP instead of HTTPS
     client.setUseHttp(True)
