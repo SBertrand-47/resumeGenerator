@@ -247,8 +247,14 @@
                         </div>
                         <div class="form-group">
                             <label for="job-end-date">End Date:</label>
-                            <input type="text" class="form-control end-date" id="job-end-date" name="job_end_date">
+                            <input type="text" class="form-control end-date" id="job-end-date" name="job_end_date_visible">
+                            <input type="hidden" id="job-end-date-hidden" name="job_end_date_hidden">
+                            <!-- Only one checkbox for the top-most (most recent) job -->
+                            <input type="checkbox" id="current_job" name="current_job" onchange="toggleEndDate(this)">
+                            <label for="current_job">Current Job</label>
                         </div>
+                        <!-- Add more experience fields as necessary, without the checkbox -->
+
                         <div class="form-group">
                             <label for="job-description">Job Description :</label>
                             <textarea class="form-control" id="job-description" name="job-description" rows="3"></textarea>
@@ -295,6 +301,38 @@
     $(document).ready(function() {
     initializeDatepickers();
 });
+  function toggleEndDate(checkbox) {
+    var endDateInput = $(checkbox).closest('.form-group').find('.end-date');
+    var endDateHiddenInput = $(checkbox).closest('.form-group').find('#job-end-date-hidden');
+
+    if (checkbox.checked) {
+        endDateInput.prop('disabled', true);
+        endDateInput.val('Present');
+        endDateHiddenInput.val('Present');
+    } else {
+        endDateInput.prop('disabled', false);
+        if (!endDateInput.val()) {
+            endDateInput.val(endDateHiddenInput.val()); // Set the value from hidden field if empty
+        }
+        endDateHiddenInput.val(endDateInput.val());
+    }
+}
+
+$(document).ready(function() {
+    $('.end-date').on('input', function() {
+        var endDateInput = $(this);
+        var endDateHiddenInput = endDateInput.closest('.form-group').find('#job-end-date-hidden');
+        endDateHiddenInput.val(endDateInput.val());
+        console.log("Hidden Input Value:", endDateHiddenInput.val());
+    });
+});
+
+
+
+
+
+
+
 
     function toggleInput(inputId, checkboxId) {
         var input = document.getElementById(inputId);

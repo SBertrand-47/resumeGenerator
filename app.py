@@ -44,17 +44,24 @@ def generate_resume():
 
     print("Final GPAs:", gpas)
 
-    # ... rest of the code
-
-
     # Get the list of relevant courses
     courses = request.form.getlist('courses')
 
-    # Get the list of experience periods
-    experience_periods = [
-        f"{start} - {end}"
-        for start, end in zip(request.form.getlist('job_start_date'), request.form.getlist('job_end_date'))
-    ]
+    # Check if the checkbox for the current job is selected:
+    experience_periods = []
+    job_start_dates = request.form.getlist('job_start_date')
+    job_end_dates_hidden = request.form.getlist('job_end_date_hidden')
+
+    print("job_start_dates:", job_start_dates)
+    print("job_end_dates_hidden:", job_end_dates_hidden)
+
+    for i, (start, end_hidden) in enumerate(zip(job_start_dates, job_end_dates_hidden)):
+        if end_hidden == "Present":  # If the hidden end date indicates it's the current job
+            experience_periods.append(f"{start} - Present")
+        else:  # If there's a specific end date provided
+            experience_periods.append(f"{start} - {end_hidden}")
+
+    print("Experience Periods:", experience_periods)
 
     data = {
         'name': request.form.get('name', 'default'),
