@@ -1,168 +1,164 @@
 <!DOCTYPE html>
 <html>
 <head>
-     <style>
-   body {
-    font-family: "Cambria", sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-size: 14px;
-}
+    <style>
+        body {
+            font-family: "Cambria", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
 
-.container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    margin: 10px;
-}
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+        }
 
-h1 {
-    font-size: 2em;
-    text-align: center;
-    margin-bottom: 5px;
-}
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 5px;
+        }
 
-h2 {
-    font-size: 1em;
-    text-align: left;
-    width: 100%;
-    margin-bottom: 5px;
-}
+        h2 {
+            font-size: 1em;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 5px;
+        }
 
-.info {
-    display: flex;
-    justify-content: center;
-    gap: 2px;
-    margin-top: 0;
-    margin-bottom: 5px;
-}
+        .info {
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
 
-p, ul {
-    margin: 0;
-    padding: 0;
-    font-size: 1em;
-    line-height: 1.3;
-}
+        p, ul {
+            margin: 0;
+            padding: 0;
+            font-size: 1em;
+            line-height: 1.3;
+        }
 
-hr {
-    border: 0;
-    border-top: 1px solid #000;
-    width: 100%;
-    margin-top: 2px;
-    margin-bottom: 2px;
-}
+        hr {
+            border: 0;
+            border-top: 1px solid #000;
+            width: 100%;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
 
-ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
 
-.education, .experience, .project div {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 2px;
-}
+        .education, .experience, .project div {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
 
-.section-content {
-    width: 100%;
-}
+        .section-content {
+            width: 100%;
+        }
 
-.role, .company {
-    font-style: italic;
-    font-weight: bold;
-}
+        .role, .company {
+            font-style: italic;
+            font-weight: bold;
+        }
 
-.university {
-    font-weight: bold;
-}
+        .university {
+            font-weight: bold;
+        }
 
-h2:first-of-type {
-    margin-top: 0;
-}
+        h2:first-of-type {
+            margin-top: 0;
+        }
 
-/* Styles for links */
-a {
-    color: black;
-    text-decoration: none;
-}
+        /* Styles for links */
+        a {
+            color: black;
+            text-decoration: none;
+        }
 
-a:hover, a:active {
-    color: black;
-    text-decoration: underline;
-}
+        a:hover, a:active {
+            color: black;
+            text-decoration: underline;
+        }
 
-.awards li h3 {
-    font-size: 0.8em;
-    margin: 0;
-}
+        .awards li h3 {
+            font-size: 0.8em;
+            margin: 0;
+        }
 
-.awards li p {
-    font-size: 0.8em;
-    line-height: 1.2;
-}
+        .awards li p {
+            font-size: 0.8em;
+            line-height: 1.2;
+        }
 
-</style>
+    </style>
 
 
 </head>
 <body>
-    <div class="container">
-        <h1>{{ name }}</h1>
-        <div class="info">
-            <p>{{ location }}</p>
-            <p>|</p>
-            <p>{{ phone }}</p>
-            <p>|</p>
-            <p>{{ email }}</p>
-            {% if github %}
+<div class="container">
+    <h1>{{ name }}</h1>
+    <div class="info">
+        <p>{{ location }}</p>
+        <p>|</p>
+        <p>{{ phone }}</p>
+        <p>|</p>
+        <p>{{ email }}</p>
+        {% if github %}
             <p>|</p>
             <p><a href="{{ github }}" target="_blank">{{ github }}</a></p>
-            {% endif %}
-            {% if portfolio %}
+        {% endif %}
+        {% if portfolio %}
             <p>|</p>
             <p><a href="{{ portfolio }}" target="_blank">{{ portfolio }}</a></p>
-            {% endif %}
-        </div>
+        {% endif %}
+    </div>
 
-        <h2>Education</h2>
-        <hr>
-        <div class="section-content" id="resumeEducationSection">
-            {% for major, university, education_period, gpa, course in zip(majors, universities, education_periods, gpas, courses) %}
-                <div class="education">
-                    <div>
-                        <p class="university">{{ university }}</p>
-                        <p>{{ major }}</p>
-                        <p>{% if gpa %}GPA: {{ gpa }}{% endif %}</p>
+    <h2>Education</h2>
+    <hr>
+    <div class="section-content" id="resumeEducationSection">
+        {% for major, university, education_period, gpa, course in zip(majors, universities, education_periods, gpas, courses) %}
+            <div class="education">
+                <div>
+                    <p class="university">{{ university }}</p>
+                    <p>{{ major }}</p>
+                    <p>{% if gpa %}GPA: {{ gpa }}{% endif %}</p>
 
-                        <p>Relevant Courses: {{ course }}</p>
-                    </div>
-                    <b><p>{{ education_period }}</p></b>
+                    <p>Relevant Courses: {{ course }}</p>
                 </div>
-            {% endfor %}
-        </div>
+                <b><p>{{ education_period }}</p></b>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    <h2>Skills</h2>
+    <hr>
+    <div class="section-content">
+        <p><b>Software:</b> {% if skills %}{{ skills.split(',')|map('trim')|join(', ') }}{% endif %}</p>
+    </div>
+
+    {% if experience_periods|length > 0 %}
 
 
 
-
-
-
-        <h2>Skills</h2>
+        <h2>Experience</h2>
         <hr>
         <div class="section-content">
-            <p><b>Software:</b> {% if skills %}{{ skills.split(',')|map('trim')|join(', ') }}{% endif %}</p>
-        </div>
-
-       {% if experience_periods|length > 0 %}
-
-
-
-            <h2>Experience</h2>
-            <hr>
-            <div class="section-content">
-                {% for role, company, experience_period, description in zip(roles, companies, experience_periods, job_descriptions) %}
+            {% for role, company, experience_period, description in zip(roles, companies, experience_periods, job_descriptions) %}
                 <div class="experience">
                     <div>
                         <p><b>{{ company }}</b></p>
@@ -172,30 +168,30 @@ a:hover, a:active {
                 </div>
                 <ul>
                     {% for item in description.split(';') %}
-                    <li>{{ item }}</li>
+                        <li>{{ item }}</li>
                     {% endfor %}
                 </ul>
-                {% endfor %}
-            </div>
-        {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
 
 
 
-       <h2>Projects</h2>
-        <hr>
-        <div class="section-content">
-            {% for project_name, project_url, project_description in zip(project_names, project_urls, project_descriptions) %}
+    <h2>Projects</h2>
+    <hr>
+    <div class="section-content">
+        {% for project_name, project_url, project_description in zip(project_names, project_urls, project_descriptions) %}
             <div class="project">
                 <p><a href="{{ project_url }}" target="_blank">{{ project_name }}</a></p>
                 <ul>
                     {% for item in project_description.split(';') %}
-                    <li>{{ item }}</li>
+                        <li>{{ item }}</li>
                     {% endfor %}
                 </ul>
             </div>
 
-            {% endfor %}
-        </div>
+        {% endfor %}
+    </div>
 
 
 </div>

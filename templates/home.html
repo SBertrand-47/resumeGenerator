@@ -6,6 +6,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -121,6 +122,18 @@
         .ui-datepicker-calendar {
             display: none;
         }
+
+        .fas.fa-info-circle {
+            margin-left: 10px;
+            color: white;
+            cursor: pointer;  /* Makes the icon appear clickable */
+            font-size: 16px;  /* Adjust size if necessary */
+        }
+
+        .fas.fa-info-circle:hover {
+            color: #3498DB;
+        }
+
     </style>
 
     <title>Create Your Resume</title>
@@ -133,7 +146,10 @@
                 <!-- Personal Information -->
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header">Personal Information</div>
+                        <div class="card-header">
+                            Personal Information
+                            <span data-toggle="tooltip" data-placement="right" title="Enter your personal details like name, location, contact information, and links to LinkedIn or your portfolio."><i class="fas fa-info-circle"></i></span>
+                        </div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Name:</label>
@@ -152,10 +168,10 @@
                                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="+1(909)-893-6787">
                             </div>
                             <div class="form-group">
-                                <label for="github">Github:</label>
+                                <label for="github">LinkedIn:</label>
                                 <input type="url" class="form-control" id="github" name="github">
                                 <input type="checkbox" id="exclude_github" name="exclude_github" onchange="toggleInput('github', 'exclude_github')">
-                                <label for="exclude_github">Exclude Github from resume</label>
+                                <label for="exclude_github">Exclude LinkedIn from resume</label>
                             </div>
                             <div class="form-group">
                                 <label for="portfolio">Portfolio:</label>
@@ -170,7 +186,9 @@
                 <!-- Skills -->
                 <div class="col-md-6">
                     <div class="card">
-                        <div class="card-header">Skills</div>
+                        <div class="card-header">Skills
+                        <span data-toggle="tooltip" data-placement="right" title="Enter Your skills Separated by commas (For Example: Python, Java)"><i class="fas fa-info-circle"></i></span>
+                        </div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="skills">Skills:(Separated by Commas)</label>
@@ -185,7 +203,9 @@
     <!-- Education -->
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">Education</div>
+            <div class="card-header">Education
+            <span data-toggle="tooltip" data-placement="right" title="Enter your Education history starting from the most recent"><i class="fas fa-info-circle"></i></span>
+            </div>
             <div class="card-body" id="educationContainer">
 
                 <!-- This is a single education record wrapped inside an education-section div -->
@@ -193,7 +213,7 @@
 
                     <div class="form-group">
                         <label for="major">Major:</label>
-                        <input type="text" class="form-control" id="major" name="major" placeholder="Bachelors of Science in Computer Science">
+                        <input type="text" class="form-control" id="major" name="major" placeholder="Bachelor of Science in Computer Science">
                     </div>
                     <div class="form-group">
                         <label for="university">University:</label>
@@ -231,12 +251,17 @@
                 <!-- Experience -->
               <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Experience
-                    <!-- Checkbox to indicate no experience -->
-                        <input type="checkbox" id="noExperience" name="no_experience" value="true" onchange="toggleExperienceCard(this)">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+    Experience
+    <div>
+        <input type="checkbox" id="noExperience" name="no_experience" value="true" onchange="toggleExperienceCard(this)">
+        <label for="noExperience" class="ml-2">I don't have any experience</label>
+        <span data-toggle="tooltip" data-placement="right" title="Enter your experience starting from the most recent. For description use semi columns( For Example: First responsibility;Second responsibility)">
+            <i class="fas fa-info-circle"></i>
+        </span>
+    </div>
+</div>
 
-                        <label for="noExperience" class="ml-2">I don't have any experience</label>
-                    </div>
                     <div class="card-body" id="experienceContainer">
                         <div class="form-group">
                             <label for="role">Role :</label>
@@ -303,6 +328,11 @@
 
 
 <script>
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 
 function toggleExperienceCard(checkbox) {
     if (checkbox.checked) {
