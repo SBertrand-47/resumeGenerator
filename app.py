@@ -10,7 +10,6 @@ app.jinja_env.globals.update(zip=zip)
 def home():
     return render_template('home.html')
 
-
 @app.route('/generate_resume', methods=['POST'])
 def generate_resume():
     print(request.form)
@@ -22,27 +21,32 @@ def generate_resume():
     ]
 
     # Handling the exclusion of GPAs
-    raw_gpas = request.form.getlist('gpa')
-    exclude_gpa_checkboxes = request.form.getlist('exclude_gpa[]') or ['off' for _ in raw_gpas]
+    education_ids = request.form.getlist('education_ids[]')  # Fetch the education IDs
 
-    print("Raw GPAs:", raw_gpas)
-    print("Exclude GPA checkboxes:", exclude_gpa_checkboxes)
+    gpas = []
+    for edu_id in education_ids:
+        # Fetch the GPA and its exclusion flag using the education ID
+        gpa = request.form.get(f'gpa_{edu_id}')
+        exclude_gpa = request.form.get(f'exclude_gpa_{edu_id}')  # This will return 'on' if checked, and None otherwise
 
-    gpas = [
-        gpa if exclude_gpa != 'on' else None
-        for gpa, exclude_gpa in zip(raw_gpas, exclude_gpa_checkboxes)
-    ]
+        if not gpa:  # Check for empty GPA fields
+            gpas.append(None)
+        elif exclude_gpa == 'on':
+            gpas.append(None)
+        else:
+            gpas.append(gpa)
 
     print("Processed GPAs:", gpas)
 
-    # Ensure the excluded GPAs are removed from the list
-    gpas = [gpa for gpa in gpas if gpa is not None]
-
     # Ensure the `gpas` list has the same length as other lists, like 'majors'
     while len(gpas) < len(request.form.getlist('major')):
-        gpas.append(None)
+        gpas.append(None)  # This appends None for any additional majors without GPA data.
 
     print("Final GPAs:", gpas)
+
+    # ... rest of the code
+
+
     # Get the list of relevant courses
     courses = request.form.getlist('courses')
 

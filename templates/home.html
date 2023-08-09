@@ -204,11 +204,14 @@
                             <input type="text" class="form-control end-date" id="end-date" name="end_date">
                         </div>
                             <div class="form-group">
-                                <label for="gpa">GPA:</label>
-                                <input type="text" class="form-control" id="gpa" name="gpa">
-                                <input type="checkbox" id="exclude_gpa" name="exclude_gpa[]" onchange="toggleInput('gpa', 'exclude_gpa')">
-                                <label for="exclude_gpa">Exclude GPA from resume</label>
+                                <label for="gpa_0">GPA:</label>
+                                <input type="text" class="form-control" id="gpa_0" name="gpa_0">
+                                <input type="checkbox" id="exclude_gpa_0" name="exclude_gpa_0" onchange="toggleInputForDynamicContent(this, 'gpa_0')">
+                                <label for="exclude_gpa_0">Exclude GPA from resume</label>
+                                <input type="hidden" name="education_ids[]" value="0"> <!-- Hidden field -->
                             </div>
+
+
 
                         <div class="form-group">
                             <label for="courses">Relevant Courses:</label>
@@ -323,10 +326,11 @@ function initializeDatepickers() {
 }
 
 
+
     function addElement(containerID, template) {
         document.getElementById(containerID).insertAdjacentHTML('beforeend', template);
     }
-
+    let educationCounter = 0; // Global counter for education sections
   function addEducation() {
     var newEducationInput = `
     <div class="education-section">
@@ -347,10 +351,11 @@ function initializeDatepickers() {
             <input type="text" class="form-control end-date" name="end_date">
         </div>
         <div class="form-group">
-            <label for="gpa">GPA:</label>
-            <input type="text" class="form-control" name="gpa">
-            <input type="checkbox" name="exclude_gpa[]" onchange="toggleInputForDynamicContent(this, 'gpa')">
-            <label>Exclude GPA from resume</label>
+            <label for="gpa_${educationCounter}">GPA:</label>
+            <input type="text" class="form-control" id="gpa_${educationCounter}" name="gpa_${educationCounter}">
+            <input type="checkbox" id="exclude_gpa_${educationCounter}" name="exclude_gpa_${educationCounter}" onchange="toggleInputForDynamicContent(this, 'gpa_${educationCounter}')">
+            <label for="exclude_gpa_${educationCounter}">Exclude GPA from resume</label>
+            <input type="hidden" name="education_ids[]" value="${educationCounter}"> <!-- Hidden field -->
         </div>
         <div class="form-group">
             <label for="courses">Relevant Courses:</label>
@@ -359,7 +364,7 @@ function initializeDatepickers() {
         <button type="button" class="btn btn-danger remove-education">Remove</button>
     </div>`;
 
-
+    educationCounter++;
     document.getElementById("educationContainer").insertAdjacentHTML('beforeend', newEducationInput);
     initializeDatepickers();
 }
@@ -370,6 +375,7 @@ function toggleInputForDynamicContent(checkbox, inputName) {
         input.value = "";  // clear the input value
     }
 }
+
 
 function initializeDatepickers() {
     $(".start-date, .end-date").datepicker({
