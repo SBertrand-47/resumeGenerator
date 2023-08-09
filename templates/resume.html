@@ -155,24 +155,30 @@ a:hover, a:active {
             <p><b>Software:</b> {% if skills %}{{ skills.split(',')|map('trim')|join(', ') }}{% endif %}</p>
         </div>
 
-       <h2>Experience</h2>
-        <hr>
-        <div class="section-content">
-            {% for role, company, experience_period, description in zip(roles, companies, experience_periods, job_descriptions) %}
-            <div class="experience">
-                <div>
-                    <p><b>{{ company }}</b></p>
-                    <p class="role">{{ role }}</p>
+       {% if experience_periods|length > 0 %}
+
+
+
+            <h2>Experience</h2>
+            <hr>
+            <div class="section-content">
+                {% for role, company, experience_period, description in zip(roles, companies, experience_periods, job_descriptions) %}
+                <div class="experience">
+                    <div>
+                        <p><b>{{ company }}</b></p>
+                        <p class="role">{{ role }}</p>
+                    </div>
+                    <p><b>{{ experience_period }}</b></p>
                 </div>
-                <p><b>{{ experience_period }}</b></p>
-            </div>
-            <ul>
-                {% for item in description.split(';') %}
-                <li>{{ item }}</li>
+                <ul>
+                    {% for item in description.split(';') %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
                 {% endfor %}
-            </ul>
-            {% endfor %}
-        </div>
+            </div>
+        {% endif %}
+
 
 
        <h2>Projects</h2>

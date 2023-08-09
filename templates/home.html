@@ -231,7 +231,12 @@
                 <!-- Experience -->
               <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Experience</div>
+                    <div class="card-header">Experience
+                    <!-- Checkbox to indicate no experience -->
+                        <input type="checkbox" id="noExperience" name="no_experience" value="true" onchange="toggleExperienceCard(this)">
+
+                        <label for="noExperience" class="ml-2">I don't have any experience</label>
+                    </div>
                     <div class="card-body" id="experienceContainer">
                         <div class="form-group">
                             <label for="role">Role :</label>
@@ -260,7 +265,7 @@
                             <textarea class="form-control" id="job-description" name="job-description" rows="3"></textarea>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addExperience()">Add Experience</button>
+                    <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addExperience()" id="btnaddexp">Add Experience</button>
                 </div>
             </div>
             </div>
@@ -298,6 +303,20 @@
 
 
 <script>
+
+function toggleExperienceCard(checkbox) {
+    if (checkbox.checked) {
+        $('#experienceContainer').hide();  // Hide the content
+        $('#btnaddexp').hide();
+    } else {
+        $('#experienceContainer').show();  // Show the content
+
+        $('#btnaddexp').show();
+    }
+}
+
+
+
    $(document).ready(function() {
     initializeDatepickers();
 

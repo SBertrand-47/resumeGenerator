@@ -10,9 +10,36 @@ app.jinja_env.globals.update(zip=zip)
 def home():
     return render_template('home.html')
 
+
 @app.route('/generate_resume', methods=['POST'])
 def generate_resume():
-    print(request.form)
+    no_experience = request.form.get('noExperience') == 'on'
+
+    if no_experience:
+        # Set default or empty values for experience-related fields
+        roles = []
+        companies = []
+        experience_periods = []
+        job_descriptions = []
+    else:
+        roles = request.form.getlist('role')
+        companies = request.form.getlist('company')
+        job_start_dates = request.form.getlist('job_start_date')
+        job_end_dates_hidden = request.form.getlist('job_end_date_hidden')
+        job_end_dates_visible = request.form.getlist('job_end_date_visible')
+
+        experience_periods = []
+        for i, (start, end_hidden) in enumerate(zip(job_start_dates, job_end_dates_hidden)):
+            # Check if both start and end_hidden have valid values
+            if start.strip() and (end_hidden.strip() and end_hidden != "-"):
+                if end_hidden == "Present":
+                    experience_periods.append(f"{start} - Present")
+                else:
+                    end_visible = job_end_dates_visible[i] if i < len(job_end_dates_visible) else end_hidden
+                    if end_visible.strip() and end_visible != "-":  # Also ensure end_visible has a valid value
+                        experience_periods.append(f"{start} - {end_visible}")
+
+        job_descriptions = request.form.getlist('job-description')
 
     # Get the list of education periods
     education_periods = [
@@ -21,51 +48,21 @@ def generate_resume():
     ]
 
     # Handling the exclusion of GPAs
-    education_ids = request.form.getlist('education_ids[]')  # Fetch the education IDs
-
+    education_ids = request.form.getlist('education_ids[]')
     gpas = []
     for edu_id in education_ids:
-        # Fetch the GPA and its exclusion flag using the education ID
         gpa = request.form.get(f'gpa_{edu_id}')
-        exclude_gpa = request.form.get(f'exclude_gpa_{edu_id}')  # This will return 'on' if checked, and None otherwise
+        exclude_gpa = request.form.get(f'exclude_gpa_{edu_id}')
 
-        if not gpa:  # Check for empty GPA fields
-            gpas.append(None)
-        elif exclude_gpa == 'on':
+        if not gpa or exclude_gpa == 'on':
             gpas.append(None)
         else:
             gpas.append(gpa)
 
-    print("Processed GPAs:", gpas)
-
-    # Ensure the `gpas` list has the same length as other lists, like 'majors'
     while len(gpas) < len(request.form.getlist('major')):
-        gpas.append(None)  # This appends None for any additional majors without GPA data.
+        gpas.append(None)
 
-    print("Final GPAs:", gpas)
-
-    # Get the list of relevant courses
     courses = request.form.getlist('courses')
-
-    # Check if the checkbox for the current job is selected:
-    experience_periods = []
-    job_start_dates = request.form.getlist('job_start_date')
-    job_end_dates_hidden = request.form.getlist('job_end_date_hidden')
-    job_end_dates_visible = request.form.getlist('job_end_date_visible')  # Retrieve the visible end dates too
-
-    print("job_start_dates:", job_start_dates)
-    print("job_end_dates_visible:", job_end_dates_visible)  # Log visible end dates
-    print("job_end_dates_hidden:", job_end_dates_hidden)
-
-    for i, (start, end_hidden) in enumerate(zip(job_start_dates, job_end_dates_hidden)):
-        if end_hidden == "Present":
-            experience_periods.append(f"{start} - Present")
-        else:
-            # Use visible end date if hidden one is not "Present"
-            end_visible = job_end_dates_visible[i] if i < len(job_end_dates_visible) else end_hidden
-            experience_periods.append(f"{start} - {end_visible}")
-
-    print("Experience Periods:", experience_periods)
 
     data = {
         'name': request.form.get('name', 'default'),
@@ -77,19 +74,21 @@ def generate_resume():
         'majors': request.form.getlist('major'),
         'universities': request.form.getlist('university'),
         'education_periods': education_periods,
-        'gpas': gpas,  # Updated GPAs with potential exclusions
+        'gpas': gpas,
         'courses': courses,
         'skills': request.form.get('skills', 'default'),
-        'roles': request.form.getlist('role'),
-        'companies': request.form.getlist('company'),
+        'roles': roles,
+        'companies': companies,
         'experience_periods': experience_periods,
-        'job_descriptions': request.form.getlist('job-description'),
+        'job_descriptions': job_descriptions,
         'project_names': request.form.getlist('project_names[]'),
         'project_urls': request.form.getlist('project_urls[]'),
         'project_descriptions': request.form.getlist('project_descriptions[]'),
         'award_titles': request.form.getlist('award_title[]'),
         'award_descriptions': request.form.getlist('award_description[]'),
     }
+
+
 
     print(data)
     print(request.form.getlist('start_date'))
