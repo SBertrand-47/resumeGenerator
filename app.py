@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, send_file
 import pdfcrowd
 import tempfile
 import csv
-
+from flask import jsonify
 app = Flask(__name__)
 
 app.jinja_env.globals.update(zip=zip)
@@ -133,16 +133,25 @@ def generate_resume():
     # Use HTTP instead of HTTPS
     client.setUseHttp(True)
 
-    # Convert HTML string to a PDF
-    pdf = client.convertString(rendered)
+    try:
+        # Convert HTML string to a PDF
+        pdf = client.convertString(rendered)
 
-    # Create a temporary file to save the PDF
-    pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
-    pdf_file.write(pdf)
-    pdf_file.close()
+        # Create a temporary file to save the PDF
+        pdf_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+        pdf_file.write(pdf)
+        pdf_file.close()
 
-    # Send the PDF file as a response
-    return send_file(pdf_file.name, mimetype='application/pdf', as_attachment=True)
+        # Send the PDF file as a response
+        return send_file(pdf_file.name, mimetype='application/pdf', as_attachment=True)
+
+    except Exception as e:
+        # Log the specific error for debugging
+        print(f"Error: {e}")
+
+        # Return a generic "Server Error" message
+        return jsonify(error="Application Error, We have notified the admin :-("), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
