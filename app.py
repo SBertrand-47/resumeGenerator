@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, send_file
 import pdfcrowd
 import tempfile
+import csv
 
 app = Flask(__name__)
 
@@ -9,6 +10,34 @@ app.jinja_env.globals.update(zip=zip)
 @app.route('/')
 def home():
     return render_template('home.html')
+
+
+def save_to_csv(data):
+    # Define CSV file name
+    csv_file = "users_data.csv"
+
+    # Check if the file already exists to determine if we need to write headers
+    file_exists = False
+    try:
+        with open(csv_file, 'r') as f:
+            file_exists = True
+    except FileNotFoundError:
+        pass
+
+    # Open the CSV file in append mode and write data
+    with open(csv_file, 'a', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=["name", "university", "email"])
+
+        if not file_exists:
+            writer.writeheader()
+
+        # Extract data from the input data
+        for major, university in zip(data["majors"], data["universities"]):
+            writer.writerow({
+                "name": data["name"],
+                "university": university,
+                "email": data["email"]
+            })
 
 
 @app.route('/generate_resume', methods=['POST'])
@@ -88,11 +117,9 @@ def generate_resume():
         'award_descriptions': request.form.getlist('award_description[]'),
     }
 
+    save_to_csv(data)
 
 
-    print(data)
-    print(request.form.getlist('start_date'))
-    print(request.form.getlist('end_date'))
 
     # Render the HTML as usual but as a string
     rendered = render_template('resume.html', **data)
