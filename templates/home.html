@@ -182,47 +182,49 @@
             </div>
 
             <div class="row">
-                <!-- Education -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Education</div>
-                        <div class="card-body" id="educationContainer">
-                            <div class="form-group">
-                            <label for="major">Major:</label>
-                            <input type="text" class="form-control" id="major" name="major" placeholder="Bachelors of Science in Computer Science">
-                        </div>
-                        <div class="form-group">
-                            <label for="university">University:</label>
-                            <input type="text" class="form-control" id="university" name="university" placeholder="University of ">
-                        </div>
-                        <div class="form-group">
-                            <label for="start-date">Start Date:</label>
-                            <input type="text" class="form-control start-date" id="start-date" name="start_date">
-                        </div>
-                        <div class="form-group">
-                            <label for="end-date">End Date:</label>
-                            <input type="text" class="form-control end-date" id="end-date" name="end_date">
-                        </div>
-                            <div class="form-group">
-                                <label for="gpa_0">GPA:</label>
-                                <input type="text" class="form-control" id="gpa_0" name="gpa_0">
-                                <input type="checkbox" id="exclude_gpa_0" name="exclude_gpa_0" onchange="toggleInputForDynamicContent(this, 'gpa_0')">
-                                <label for="exclude_gpa_0">Exclude GPA from resume</label>
-                                <input type="hidden" name="education_ids[]" value="0"> <!-- Hidden field -->
-                            </div>
+    <!-- Education -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Education</div>
+            <div class="card-body" id="educationContainer">
 
+                <!-- This is a single education record wrapped inside an education-section div -->
+                <div class="education-section">
 
-
-                        <div class="form-group">
-                            <label for="courses">Relevant Courses:</label>
-                            <textarea class="form-control" id="courses" name="courses"></textarea>
-                        </div>
-
-
-                        </div>
-                        <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addEducation()">Add Education</button>
+                    <div class="form-group">
+                        <label for="major">Major:</label>
+                        <input type="text" class="form-control" id="major" name="major" placeholder="Bachelors of Science in Computer Science">
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="university">University:</label>
+                        <input type="text" class="form-control" id="university" name="university" placeholder="University of ">
+                    </div>
+                    <div class="form-group">
+                        <label for="start-date">Start Date:</label>
+                        <input type="text" class="form-control start-date" id="start-date" name="start_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="end-date">End Date:</label>
+                        <input type="text" class="form-control end-date" id="end-date" name="end_date">
+                    </div>
+                    <div class="form-group">
+                        <label for="gpa_0">GPA:</label>
+                        <input type="text" class="form-control" id="gpa_0" name="gpa_0">
+                        <input type="checkbox" id="exclude_gpa_0" name="exclude_gpa_0" onchange="toggleInputForDynamicContent(this, 'gpa_0')">
+                        <label for="exclude_gpa_0">Exclude GPA from resume</label>
+                        <input type="hidden" name="education_ids[]" value="0"> <!-- Hidden field -->
+                    </div>
+                    <div class="form-group">
+                        <label for="courses">Relevant Courses:</label>
+                        <textarea class="form-control" id="courses" name="courses"></textarea>
+                    </div>
+
+                </div> <!-- End of the education-section div -->
+
+            </div>
+            <button type="button" class="btn btn-secondary mb-3 ml-3" onclick="addEducation()">Add Education</button>
+        </div>
+    </div>
 
 
 
@@ -330,7 +332,7 @@ function initializeDatepickers() {
     function addElement(containerID, template) {
         document.getElementById(containerID).insertAdjacentHTML('beforeend', template);
     }
-    let educationCounter = 0; // Global counter for education sections
+    let educationCounter = 1; // Global counter for education sections
   function addEducation() {
     var newEducationInput = `
     <div class="education-section">
